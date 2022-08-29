@@ -1,0 +1,39 @@
+//Base
+polySphere -radius 3 -subdivisionsX 20 -subdivisionsY 20 -axis 0 1 0 -createUVs 2 -constructionHistory 1;
+move -relative -objectSpace -worldSpaceDistance 0 3 0;
+
+//Middle
+//polySphere -r 2 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch1
+polySphere -radius 1 -subdivisionsX 20 -subdivisionsY 20 -axis 0 1 0 -createUVs 2 -constructionHistory 1;
+polySphere -e -radius 2;
+move -relative -objectSpace -worldSpaceDistance 0 7 0;
+
+//Head
+polySphere -r 1 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -constructionHistory 1;
+move -relative -objectSpace -worldSpaceDistance 0 9.5 0;
+
+//Eye_R
+polySphere -r 0.1 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -constructionHistory 1;
+move -relative -objectSpace -worldSpaceDistance -0.894 9.759 0.391;
+//Eye_L
+polySphere -r 0.1 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -constructionHistory 1;
+move -relative -objectSpace -worldSpaceDistance -0.894 9.759 -0.391;
+
+
+//Hat Base
+polyCylinder -r 1.25 -h 0.15 -sx 20 -sy 1 -sz 1 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1;
+move -relative -objectSpace -worldSpaceDistance 0 10 0;
+
+//Hat
+polyCylinder -r 1 -h 1 -sx 20 -sy 1 -sz 1 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1;
+move -relative -objectSpace -worldSpaceDistance 0 10.5 0;
+
+//Hat Stripe
+polyCylinder -r 1.01 -h 0.15 -sx 20 -sy 1 -sz 1 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1;
+move -relative -objectSpace -worldSpaceDistance 0 10.25 0;
+
+//Nose
+polyCone -r 1 -h 2 -sx 20 -sy 1 -sz 0 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1;
+move -r -objectSpace -worldSpaceDistance -1.176 9.378 0;
+rotate -r -os -fo 0 0 90;
+scale -r 0.152 0.539 0.152;
