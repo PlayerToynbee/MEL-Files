@@ -1,0 +1,45 @@
+int $i = 0;
+int $dir;
+$movX = 0;
+$movY = 0;
+$movZ = 0;
+
+$sizeScale = 1;
+$sizes = 1;
+polyCube -w $sizes -h $sizes -d $sizes -sx 1 -sy 1 -sz 1 -ax 0 1 0 -cuv 4 -ch 1;
+
+while ($i <= 100)
+{
+
+    $dirr = rand(0,3);
+    $dir = rand(0,2);
+    if ($dir == 1)
+        $mul = -1;
+    else
+        $mul = 1;
+
+    if ( $dirr == 0 )
+        {
+            $movX += $sizes * $mul;
+        }
+    else if ( $dirr == 1 )
+        {
+            $movY += $sizes * $mul;
+        }
+    else if ( $dirr == 2 )
+        {
+            $movZ += $sizes * $mul;
+        }
+    $dir = rand(0,2);
+    if ($dir == 1)
+        $mul = -1;
+    else
+        $mul = 1;
+    $sizeScale = rand(0.1,3);
+
+    polyCube -w $sizeScale -h $sizeScale -d $sizeScale -sx 1 -sy 1 -sz 1 -ax 0 1 0 -cuv 4 -ch 1;
+    move -r (($movX + $sizeScale)) (($movY + $sizeScale)) (($movZ + $sizeScale));
+    $sizes = $sizeScale;
+    $i++;
+
+}
