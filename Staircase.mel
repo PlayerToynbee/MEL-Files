@@ -1,0 +1,31 @@
+
+proc GenerateStaircase(int $stairNum, float $stairLen, float $stairWidth, float $stairHeight, float $offset, float $stepHeight, float $stepRotation)
+{
+    vector $vertOld = <<0f,0f,0f>>;
+    vector $vertNew = <<0f,0f,0f>>;
+    curve -d 3 -p 0 0 0;
+    for ($i=0; $i<=$stairNum; $i++)
+    {
+    polyCube -ch on -o on -w $stairWidth -h $stairHeight -d $stairLen -cuv 4 ;
+    move -r 0 ($stepHeight * $i) $offset;
+    xform -ws -rotatePivot 0 0 0;
+    rotate -r -os 0 ($i*$stepRotation) 0 ;
+    polyCylinder -n "cyl" -r 0.25 -h ($stepHeight * 3) -sx 20 -sy 1 -sz 1 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1;
+    move -r 0 (($stepHeight * $i)+ $stepHeight * 1.5) ($offset - $stairWidth);
+    //vector $vertNew = `xform -q -wd -t`;
+    //$vertNew = <<$vertNew.x, $vertNew.Y, $vertNew.z)
+    //print($vertNew + "next ");
+    //$vertNew = <<$vertNew.x, ($vertNew.Y + (($stepHeight * $i)+ $stepHeight * 3), $vertNew.z);
+    
+    xform -ws -rotatePivot 0 0 0;
+    rotate -r -os 0 ($i*$stepRotation) 0 ;
+    polyCube -w 1 -h 1 -d 1 -sx 1 -sy 1 -sz 1 -ax 0 1 0 -cuv 4 -ch 1;
+    move -r 0 (($stepHeight * $i)+ $stepHeight * 3) ($offset - $stairWidth);
+    xform -ws -rotatePivot 0 0 0;
+    rotate -r -os 0 ($i*$stepRotation) 0 ;
+    //vector $vertNew = `xform -q -wd -t`
+    //curve -a - bez -p ($vertOld.x) ($vertOld.y + (($stepHeight * $i)+ $stepHeight * 1.5)) ($vertOld.z + $offset ) -p ($vertNew.x) ($vertNew.y + (($stepHeight * $i)+ $stepHeight * 1.5)) ($vertNew.z + $offset ) curve1;
+    //vector $vertOld = $vertNew;
+    }
+}
+GenerateStaircase(20, 8, 3, .5, -4, 4, 25);
