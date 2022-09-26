@@ -1,0 +1,68 @@
+global proc RandomNumbers()
+{
+    int $numbers[];
+    for ( $i = 0; $i < 4; $i++)
+    {
+        int $rand = `rand 10`; 
+
+        
+        $numbers[$i] = $rand;
+    }
+    print($numbers);
+    return $numbers;
+}
+global proc RandomOperation()
+{
+    string $operation;
+    int $rand = `rand 7`;
+
+    //print($rand);
+    if($rand == 0) $operation = "+";
+    if($rand == 1) $operation = "-";
+    if($rand == 2) $operation = "*";
+    if($rand == 3) $operation = "/";
+    if($rand == 4) $operation = "^";
+    if($rand == 5) $operation = "Mean";
+    if($rand == 6) $operation = "Mode";
+        
+
+    print($operation);
+}
+
+
+global proc Median(int $nums[])
+{
+int $order[];
+int $even[];
+int $num;
+$order = `sort $nums`;
+print($order);
+//$order[0] = $nums[0]
+if(size($order)%2 == 0)
+{
+    $num = size($order)/2;
+    $even[0] = $order[$num];
+    $even[1] = $order[$num+1];
+    Mean($even);
+}
+else
+{
+    $num = $order[size($order)/2];
+    //return $num;
+    print("The Mean is " + $num);
+}
+}
+global proc Mean(int $nums[])
+{
+    int $meanNum;
+    int $mean;
+    for ( $i = 0; $i < size($nums); $i++)
+    {
+        $mean += $nums[$i];
+    }
+    $mean = $meanNum/size($nums);
+}
+RandomNumbers();
+//Median();
+
+//RandomOperation();
