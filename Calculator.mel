@@ -1,68 +1,116 @@
-global proc RandomNumbers()
+global proc int[] RandomNumbers(int $amount) 
+{ 
+    int $numbers[]; 
+    for ( $i = 0; $i < $amount; $i++) 
+    { 
+        int $rand = `rand 10`;
+        $numbers[$i] = $rand; 
+    } 
+
+    return $numbers; 
+} 
+global proc string RandomOperation() 
+{ 
+    string $operation; 
+    int $rand = `rand 7`; 
+    if($rand == 0) $operation = "+"; 
+    if($rand == 1) $operation = "-"; 
+    if($rand == 2) $operation = "*"; 
+    if($rand == 3) $operation = "/"; 
+    if($rand == 4) $operation = "^"; 
+    if($rand == 5) $operation = "Mean"; 
+    if($rand == 6) $operation = "Median"; 
+    return $operation;
+} 
+ 
+ 
+global proc float Median(int $nums[]) 
+{ 
+int $order[]; 
+int $even[]; 
+float $value;
+int $num; 
+$order = `sort $nums`; 
+if(size($order)%2 == 0) 
+{ 
+    $num = size($order)/2; 
+    $even[0] = $order[$num]; 
+    $even[1] = $order[$num+1]; 
+    $value = Mean($even); 
+    return $value;
+} 
+else 
+{ 
+    $value = $order[size($order)/2]; 
+    return $value; 
+} 
+
+} 
+global proc float Mean(int $nums[]) 
+{ 
+    int $meanNum; 
+    float $mean; 
+    for ( $i = 0; $i < size($nums); $i++) 
+    { 
+        $mean += $nums[$i]; 
+    } 
+    return ($mean/size($nums));
+} 
+global proc Calculator(int $amount)
 {
-    int $numbers[];
-    for ( $i = 0; $i < 4; $i++)
+    float $mean;
+    float $median;
+    string $equation;
+    int $divideByZero = 0;
+    $nums = RandomNumbers($amount);
+    $operation = RandomOperation();
+    for($i = 0; $i < size($nums); $i++)
     {
-        int $rand = `rand 10`; 
-
-        
-        $numbers[$i] = $rand;
+        $equation += $nums[$i] + " ";
+        if($i < size($nums)- 1) $equation += $operation + " ";
     }
-    print($numbers);
-    return $numbers;
-}
-global proc RandomOperation()
-{
-    string $operation;
-    int $rand = `rand 7`;
-
-    //print($rand);
-    if($rand == 0) $operation = "+";
-    if($rand == 1) $operation = "-";
-    if($rand == 2) $operation = "*";
-    if($rand == 3) $operation = "/";
-    if($rand == 4) $operation = "^";
-    if($rand == 5) $operation = "Mean";
-    if($rand == 6) $operation = "Mode";
-        
-
-    print($operation);
-}
-
-
-global proc Median(int $nums[])
-{
-int $order[];
-int $even[];
-int $num;
-$order = `sort $nums`;
-print($order);
-//$order[0] = $nums[0]
-if(size($order)%2 == 0)
-{
-    $num = size($order)/2;
-    $even[0] = $order[$num];
-    $even[1] = $order[$num+1];
-    Mean($even);
-}
-else
-{
-    $num = $order[size($order)/2];
-    //return $num;
-    print("The Mean is " + $num);
-}
-}
-global proc Mean(int $nums[])
-{
-    int $meanNum;
-    int $mean;
-    for ( $i = 0; $i < size($nums); $i++)
+    
+    if($operation == "Mean")
     {
-        $mean += $nums[$i];
+        $mean = Mean($nums);
+        print("The Mean of (" + intArrayToString($nums, ", ") + ") = " + $mean + "\n");
     }
-    $mean = $meanNum/size($nums);
-}
-RandomNumbers();
-//Median();
+    if($operation == "Median")
+    {
+        $median = Median($nums);
+        print("The Median of (" + intArrayToString($nums, ", ") + ") = " + $median + "\n");
+    }
+    if($operation == "^")
+    {
+        int $power = $nums[0];
+        for($i = 0; $i < size($nums) - 1; $i++)
+            {
+                $power = `pow $power $nums[$i+1]`;
+            }
+        print("The equation of ( " + $equation + ") = " + $power);
 
-//RandomOperation();
+    }
+    else
+    {
+        
+            
+        
+        for($i = 0; $i < size($nums) - 1; $i++)
+        {
+            if($nums[$i+1] == 0 && $operation == "/")
+            {
+                $divideByZero = 1;
+                print("The equation of ( " + $equation + ") can't be solved due to a divide by zero error.");
+                break;
+            }
+        }
+        if($divideByZero == 0)
+        {
+            $result = eval("$result = " + $equation + ";");
+
+            print("The equation of ( " + $equation + ") = " + $result);
+        }
+    }
+}
+Calculator(5); //Enter the amount of numbers
+
