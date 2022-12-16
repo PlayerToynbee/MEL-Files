@@ -1,0 +1,51 @@
+global proc Placement()
+{
+    string $selectedList[] = `ls -sl`;
+    string $currentObject;
+
+    string $field1 = `optionVar -q "firstField"`;
+    string $field2 = `optionVar -q "secondField"`;
+    string $field3 = `optionVar -q "thirdField"`;
+    
+    float $dupeAmount = `intField -q -value $field1`;
+    float $minR = `floatField -q -value $field2`;
+    float $maxR = `floatField -q -value $field3`;
+
+    for( $i=0; $i<$dupeAmount; ++$i )
+    {
+    for ($currentObject in $selectedList)
+    {
+    duplicate $currentObject;
+    setAttr ($currentObject + ".translateX") (rand($minR,$maxR));
+    setAttr ($currentObject + ".translateY") (rand($minR,$maxR));
+    setAttr ($currentObject + ".translateZ") (rand($minR,$maxR));
+    }
+    }
+}
+string $mWindow = "Random";
+
+if (`window -exists $mWindow`)
+{
+    deleteUI $mWindow;
+}
+$mWindow = `window -height 300 -title "Random Placement" -sizeable 1 -width 400 $mWindow`;
+string $mColumn = `columnLayout -adjustableColumn 1 -parent $mWindow`;
+button -parent $mColumn - label "Number of Duplicates" -command "print (\" \")";
+optionVar -stringValue "firstField" `intField`;
+button -parent $mColumn - label "Min Range" -command"print (\" \")";
+optionVar -stringValue "secondField" `floatField`;
+button -parent $mColumn - label "Max Range" -command"print (\" \")";
+optionVar -stringValue "thirdField" `floatField`;
+
+button -parent $mColumn -label "Go" -command Placement;
+/*
+button -parent $mColumn -label "Number of duplicates" -command Dupe;
+button -parent $mColumn -label "Subtract Numbers" -command Subtract;
+button -parent $mColumn -label "Multiply Numbers" -command Multiply;
+button -parent $mColumn -label "Divide Numbers" -command Divide;
+button -parent $mColumn -label "Power of Numbers" -command Power;
+button -parent $mColumn -label "Mean of Numbers" -command MeanOp;
+button -parent $mColumn -label "Median of Numbers" -command MedianOp;
+*/
+
+showWindow;
